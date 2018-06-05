@@ -1,5 +1,4 @@
-﻿using EstruturaDDD_Template.Data.Content;
-using EstruturaDDD_Template.Domain.Interface.Repository;
+﻿using EstruturaDDD_Template.Domain.Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,13 +11,12 @@ namespace EstruturaDDD_Template.Data.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected DataContext _context;
+        protected DbContext _context;
 
-        public BaseRepository(DataContext context)
+        public BaseRepository(DbContext context)
         {
             _context = context;
         }
-
         public IQueryable<T> GetAll()
         {
             return _context.Set<T>();
