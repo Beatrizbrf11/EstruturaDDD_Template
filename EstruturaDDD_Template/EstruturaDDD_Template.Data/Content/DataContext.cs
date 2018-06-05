@@ -56,7 +56,7 @@ namespace EstruturaDDD_Template.Data.Content
                 if (entry.Entity is IAuditable)
                 {
                     var auditable = entry.Entity as IAuditable;
-                    if (entry.State == EntityState.Added)
+                    if (entry.State == EntityState.Added) 
                     {
                         auditable.CreatedBy = UserProvider;//  
                         auditable.CreatedOn = TimestampProvider();
