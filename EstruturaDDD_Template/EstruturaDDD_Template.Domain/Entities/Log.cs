@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EstruturaDDD_Template.Domain.Entities
 {
-    public class Log : Base
+    public class Log : Entity , IEntity
     {
         public string Detalhe { get; set; }
     }

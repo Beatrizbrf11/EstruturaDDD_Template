@@ -1,180 +1,69 @@
-﻿using EstruturaDDD_Template.Domain.Interface.Repository;
+﻿using AutoMapper;
+using EntruturaDDD_Template;
+using EstruturaDDD_Template.Data.Context;
+using EstruturaDDD_Template.Domain.Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EstruturaDDD_Template.Data.Repository
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    //TODO abstract class 
+    public class BaseRepository<TEntity, TEntityDTO> : IDisposable, IBaseRepository<TEntity, TEntityDTO>
+       where TEntity : class
+       where TEntityDTO : IEntityDTO
     {
-        protected DbContext _context;
+        protected CoreContext Db;
 
-        public BaseRepository(DbContext context)
+        public BaseRepository(CoreContext context)
         {
-            _context = context;
+            Db = context;
         }
-        public IQueryable<T> GetAll()
+        public void Add(TEntityDTO entity)
         {
-            return _context.Set<T>();
-        }
-
-        public virtual async Task<ICollection<T>> GetAllAsyn()
-        {
-
-            return await _context.Set<T>().ToListAsync();
+            var mappedEntity = Mapper.Map<TEntity>(entity);
+            Db.Set<TEntity>().Add(mappedEntity);
+            Db.SaveChanges();
         }
 
-        public virtual T Get(int id)
+        public TEntityDTO GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+            var entity = Db.Set<TEntity>().Find(id);
+            var mappedEntity = Mapper.Map<TEntityDTO>(entity);
+            return mappedEntity;
         }
 
-        public virtual async Task<T> GetAsync(int id)
+        protected IQueryable<TEntity> All()
         {
-            return await _context.Set<T>().FindAsync(id);
+            var entities = Db.Set<TEntity>().AsQueryable();
+            return entities;
         }
 
-        public virtual T Add(T t)
+        public IEnumerable<TEntityDTO> GetAll()
         {
-
-            _context.Set<T>().Add(t);
-            _context.SaveChanges();
-            return t;
+            var entities = Db.Set<TEntity>().ToList();
+            var mappedEntities = Mapper.Map<List<TEntityDTO>>(entities);
+            return mappedEntities;
         }
 
-        public virtual async Task<T> AddAsyn(T t)
+        public void Update(TEntityDTO entity)
         {
-            _context.Set<T>().Add(t);
-            await _context.SaveChangesAsync();
-            return t;
-
+            var mappedEntity = Mapper.Map<TEntity>(entity);
+            Db.Entry(mappedEntity).State = EntityState.Modified;
+            Db.SaveChanges();
         }
-
-        public virtual T Find(Expression<Func<T, bool>> match)
+        public void Remove(int id)
         {
-            return _context.Set<T>().SingleOrDefault(match);
-        }
-
-        public virtual async Task<T> FindAsync(Expression<Func<T, bool>> match)
-        {
-            return await _context.Set<T>().SingleOrDefaultAsync(match);
-        }
-
-        public ICollection<T> FindAll(Expression<Func<T, bool>> match)
-        {
-            return _context.Set<T>().Where(match).ToList();
-        }
-
-        public async Task<ICollection<T>> FindAllAsync(Expression<Func<T, bool>> match)
-        {
-            return await _context.Set<T>().Where(match).ToListAsync();
-        }
-
-        public virtual void Delete(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-            _context.SaveChanges();
-        }
-
-        public virtual async Task<int> DeleteAsyn(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-            return await _context.SaveChangesAsync();
-        }
-
-        public virtual T Update(T t, object key)
-        {
-            if (t == null)
-                return null;
-            T exist = _context.Set<T>().Find(key);
-            if (exist != null)
-            {
-                _context.Entry(exist).CurrentValues.SetValues(t);
-                _context.SaveChanges();
-            }
-            return exist;
-        }
-
-        public virtual async Task<T> UpdateAsyn(T t, object key)
-        {
-            if (t == null)
-                return null;
-            T exist = await _context.Set<T>().FindAsync(key);
-            if (exist != null)
-            {
-                _context.Entry(exist).CurrentValues.SetValues(t);
-                await _context.SaveChangesAsync();
-            }
-            return exist;
-        }
-
-        public int Count()
-        {
-            return _context.Set<T>().Count();
-        }
-
-        public async Task<int> CountAsync()
-        {
-            return await _context.Set<T>().CountAsync();
-        }
-
-        public virtual void Save()
-        {
-
-            _context.SaveChanges();
-        }
-
-        public async virtual Task<int> SaveAsync()
-        {
-            return await _context.SaveChangesAsync();
-        }
-
-        public virtual IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
-        {
-            IQueryable<T> query = _context.Set<T>().Where(predicate);
-            return query;
-        }
-
-        public virtual async Task<ICollection<T>> FindByAsyn(Expression<Func<T, bool>> predicate)
-        {
-            return await _context.Set<T>().Where(predicate).ToListAsync();
-        }
-
-        public IQueryable<T> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties)
-        {
-
-            IQueryable<T> queryable = GetAll();
-            foreach (Expression<Func<T, object>> includeProperty in includeProperties)
-            {
-
-                queryable = queryable.Include<T, object>(includeProperty);
-            }
-
-            return queryable;
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-                this.disposed = true;
-            }
+            var entity = Db.Set<TEntity>().Find(id);
+            var mappedEntity = Mapper.Map<TEntity>(entity);
+            Db.Set<TEntity>().Remove(mappedEntity);
+            Db.SaveChanges();
         }
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

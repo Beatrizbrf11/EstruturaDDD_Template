@@ -1,6 +1,6 @@
 using System;
 
-namespace EstruturaDDD_Template.Aplication.Models
+namespace EstruturaDDD_Template.Aplication.ViewModels
 {
     public class ErrorViewModel
     {

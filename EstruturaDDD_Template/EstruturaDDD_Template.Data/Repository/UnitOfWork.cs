@@ -1,4 +1,5 @@
-﻿using EstruturaDDD_Template.Data.Content;
+﻿using EntruturaDDD_Template.Cross.DTO;
+using EstruturaDDD_Template.Data.Context;
 using EstruturaDDD_Template.Data.Repository;
 using EstruturaDDD_Template.Domain.Entities;
 using EstruturaDDD_Template.Domain.Interface.Repository;
@@ -11,24 +12,35 @@ namespace EstruturaDDD_Template.Data.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public AppContexto _context;
+        public CoreContext _context;
 
         private bool disposed = false;
 
-        public UnitOfWork(AppContexto context)
+        public UnitOfWork(CoreContext context)
         {
             _context = context;
         }
         
-        private IRepository<Log> logRepository;
+        private IBaseRepository<Log,LogDTO> logRepository;
+        private IRepository<Log> logRepository2;
 
-        public IRepository<Log> LogRepository
+        public IBaseRepository<Log, LogDTO> LogRepository
         {
             get
             {
-                if (this.logRepository == null)
-                    this.logRepository = new Repository<Log>(_context);
+                if (logRepository == null)
+                    logRepository = new BaseRepository<Log, LogDTO>(_context);
                 return logRepository;
+            }
+        }
+        //TODO Apagar
+        public IRepository<Log> LogRepository2
+        {
+            get
+            {
+                if (this.logRepository2 == null)
+                    this.logRepository2 = new Repository<Log>(_context);
+                return logRepository2;
             }
         }
 

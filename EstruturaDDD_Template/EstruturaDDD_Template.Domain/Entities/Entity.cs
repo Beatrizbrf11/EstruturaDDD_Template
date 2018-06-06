@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EstruturaDDD_Template.Domain.Entities
 {
-    public class Base
+    public class Entity
     {
         [Key]
         public int Id { get; set; }

@@ -14,7 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EstruturaDDD_Template\EstruturaDDD_Template.Data\EstruturaDDD_Template.Data.csproj" />
+    <ProjectReference Include="..\EntruturaDDD_Template.Cross.AutoMapper\EntruturaDDD_Template.Cross.AutoMapper.csproj" />
+    <ProjectReference Include="..\EntruturaDDD_Template\EntruturaDDD_Template.Cross.DTO.csproj" />
+    <ProjectReference Include="..\EstruturaDDD_Template\EstruturaDDD_Template.Domain\EstruturaDDD_Template.Domain.csproj" />
+    <ProjectReference Include="..\EstruturaDDD_Template\EstruturaDDD_Template.Services\EstruturaDDD_Template.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Default\" />
   </ItemGroup>
 
 </Project>

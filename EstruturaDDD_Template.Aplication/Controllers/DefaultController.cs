@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EstruturaDDD_Template.Data.Repository;
+using EstruturaDDD_Template.Domain.Interface.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,17 @@ namespace EstruturaDDD_Template.Aplication.Controllers
 {
     public class DefaultController : Controller
     {
+        public readonly IUnitOfWork _uow;
+
+        public DefaultController(IUnitOfWork uow)
+        {
+            _uow = uow;
+        }
         // GET: Default
         public ActionResult Index()
         {
+           var teste =  _uow.LogRepository.GetAll();
+
             return View();
         }
 

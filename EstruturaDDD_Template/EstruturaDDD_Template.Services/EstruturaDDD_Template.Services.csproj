@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EstruturaDDD_Template.Data\EstruturaDDD_Template.Data.csproj" />
+    <ProjectReference Include="..\EstruturaDDD_Template.Domain\EstruturaDDD_Template.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
