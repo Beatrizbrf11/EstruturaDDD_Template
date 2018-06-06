@@ -11,7 +11,7 @@ namespace EstruturaDDD_Template.Domain.Interface.Repository
     public interface IUnitOfWork : IDisposable
     {
         IBaseRepository<Log,LogDTO> LogRepository { get; }
-        IRepository<Log> LogRepository2 { get; }
+        //IRepository<Log> LogRepository2 { get; }
         void Commit();
     }
 }

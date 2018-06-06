@@ -4,7 +4,7 @@ namespace EntruturaDDD_Template
 {
     public interface IEntityDTO
     {
-        int Id { get; set; }
+        Guid Id { get; set; }
         string CreatedBy { get; set; }
         DateTime? CreatedOn { get; set; }
         string UpdatedBy { get; set; }

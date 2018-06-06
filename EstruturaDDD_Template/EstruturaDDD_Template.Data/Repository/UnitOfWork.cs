@@ -22,7 +22,7 @@ namespace EstruturaDDD_Template.Data.Repository
         }
         
         private IBaseRepository<Log,LogDTO> logRepository;
-        private IRepository<Log> logRepository2;
+        //private IRepository<Log> logRepository2;
 
         public IBaseRepository<Log, LogDTO> LogRepository
         {
@@ -34,15 +34,15 @@ namespace EstruturaDDD_Template.Data.Repository
             }
         }
         //TODO Apagar
-        public IRepository<Log> LogRepository2
-        {
-            get
-            {
-                if (this.logRepository2 == null)
-                    this.logRepository2 = new Repository<Log>(_context);
-                return logRepository2;
-            }
-        }
+        //public IRepository<Log> LogRepository2
+        //{
+        //    get
+        //    {
+        //        if (this.logRepository2 == null)
+        //            this.logRepository2 = new Repository<Log>(_context);
+        //        return logRepository2;
+        //    }
+        //}
 
         public void Commit()
         {

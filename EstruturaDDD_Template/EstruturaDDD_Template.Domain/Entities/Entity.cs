@@ -8,7 +8,7 @@ namespace EstruturaDDD_Template.Domain.Entities
     public class Entity
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string UpdatedBy { get; set; }

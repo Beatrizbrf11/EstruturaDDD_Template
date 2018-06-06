@@ -6,7 +6,7 @@ namespace EntruturaDDD_Template.Cross.DTO
 {
     public class EntityDTO
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string UpdatedBy { get; set; }
